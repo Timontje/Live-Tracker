@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Discord Live Members</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #0d1117;
+    color: white;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    overflow: hidden;
+}
+
+.card {
+    width: 560px;
+    max-width: 90vw;
+
+    padding: 38px 42px;
+
+    text-align: center;
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.35);
+
+    transition:
+        .4s ease;
+}
+
+.live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 22px;
+    padding: 5px 11px;
+
+    border-radius: 6px;
+
+    background: #21262d;
+    border: 1px solid #30363d;
+
+    color: #3fb950;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #3fb950;
+
+    box-shadow:
+        0 0 8px rgba(63,185,80,.7);
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: .4;
+        transform: scale(.75);
+    }
+}
+
+.title {
+    color: #8b949e;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 8px;
+}
+
+h1 {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 500;
+
+    color: #f0f6fc;
+}
+
+.members {
+    margin-top: 25px;
+
+    font-size: 64px;
+    line-height: 1;
+
+    font-weight: 500;
+
+    letter-spacing: -2px;
+
+    color: #f0f6fc;
+}
+
+.members.up {
+    animation:
+        numberUp .65s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes numberUp {
+
+    0% {
+        transform:
+            translateY(12px)
+            scale(.92);
+
+        opacity: .25;
+
+        filter: blur(4px);
+    }
+
+    35% {
+        transform:
+            translateY(-7px)
+            scale(1.08);
+
+        opacity: 1;
+
+        color: #58a6ff;
+
+        filter: blur(0);
+
+        text-shadow:
+            0 0 20px
+            rgba(88,166,255,.65);
+    }
+
+    65% {
+        transform:
+            translateY(2px)
+            scale(1.03);
+
+        color: #f0f6fc;
+
+        text-shadow:
+            0 0 12px
+            rgba(88,166,255,.25);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scale(1);
+
+        opacity: 1;
+
+        color: #f0f6fc;
+
+        text-shadow: none;
+    }
+}
+
+.progress-info {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 30px;
+    margin-bottom: 8px;
+
+    color: #8b949e;
+
+    font-size: 12px;
+}
+
+.progress-info strong {
+    color: #c9d1d9;
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+
+    background: #21262d;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.bar {
+    width: 0%;
+    height: 100%;
+
+    background: #238636;
+
+    border-radius: 5px;
+
+    transition:
+        width .8s
+        cubic-bezier(.2,.8,.2,1);
+
+    position: relative;
+}
+
+.bar::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    width: 80px;
+    right: -80px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    opacity: 0;
+}
+
+.bar.animate::after {
+    opacity: 1;
+
+    animation:
+        shine .8s ease;
+}
+
+@keyframes shine {
+    from {
+        right: 100%;
+    }
+
+    to {
+        right: -80px;
+    }
+}
+
+.percent {
+    margin-top: 9px;
+
+    color: #6e7681;
+
+    font-size: 11px;
+}
+
+.goal {
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid #21262d;
+
+    color: #8b949e;
+
+    font-size: 12px;
+}
+
+.goal strong {
+    color: #f0f6fc;
+}
+
+.complete {
+    border-color: #238636;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.35),
+        0 0 35px rgba(63,185,80,.15);
+}
+
+.complete .bar {
+    background:
+        linear-gradient(
+            90deg,
+            #238636,
+            #3fb950
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(63,185,80,.6);
+}
+
+.confetti {
+    position: fixed;
+
+    top: -20px;
+
+    width: 7px;
+    height: 12px;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+    animation:
+        fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+
+        opacity: 0;
+    }
+}
+
+@media(max-width:600px) {
+
+    .card {
+        padding: 30px 22px;
+    }
+
+    .members {
+        font-size: 48px;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+    <div class="live">
+        <span class="dot"></span>
+        LIVE
+    </div>
+
+    <div class="title">
+        Discord Community
+    </div>
+
+    <h1>
+        Member Goal
+    </h1>
+
+    <div class="members" id="members">
+        Laden...
+    </div>
+
+    <div class="progress-info">
+
+        <span>
+            Progress
+        </span>
+
+        <span>
+            <strong id="current">0</strong> / 600
+        </span>
+
+    </div>
+
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <div class="percent">
+        <span id="percent">0%</span>
+    </div>
+
+    <div class="goal">
+        Goal:
+        <strong>600 members</strong>
+    </div>
+
+</div>
+
+<script>
+
+const INVITE = "ddhrpnl";
+const GOAL = 600;
+
+const members =
+    document.getElementById("members");
+
+const current =
+    document.getElementById("current");
+
+const bar =
+    document.getElementById("bar");
+
+const percent =
+    document.getElementById("percent");
+
+const card =
+    document.getElementById("card");
+
+let oldCount = null;
+let celebrated = false;
+
+
+/* =========================
+   DISCORD MEMBER COUNT
+========================= */
+
+async function updateMembers() {
+
+    try {
+
+        const response = await fetch(
+            "https://discord.com/api/v10/invites/"
+            + INVITE
+            + "?with_counts=true"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Discord API error"
+            );
+        }
+
+        const data =
+            await response.json();
+
+        const count =
+            data.approximate_member_count;
+
+        if (
+            typeof count !== "number"
+        ) {
+            throw new Error(
+                "Geen member count"
+            );
+        }
+
+
+        /*
+            Eerste keer
+        */
+
+        if (oldCount === null) {
+
+            members.textContent =
+                count + " / " + GOAL;
+
+        }
+
+
+        /*
+            Member omhoog
+        */
+
+        if (
+            oldCount !== null &&
+            count > oldCount
+        ) {
+
+            members.classList.remove(
+                "up"
+            );
+
+            bar.classList.remove(
+                "animate"
+            );
+
+            void members.offsetWidth;
+            void bar.offsetWidth;
+
+            members.classList.add(
+                "up"
+            );
+
+            bar.classList.add(
+                "animate"
+            );
+
+            members.textContent =
+                count + " / " + GOAL;
+
+        }
+
+
+        /*
+            Member omlaag
+        */
+
+        if (
+            oldCount !== null &&
+            count < oldCount
+        ) {
+
+            members.textContent =
+                count + " / " + GOAL;
+
+        }
+
+
+        current.textContent =
+            count;
+
+
+        oldCount = count;
+
+
+        /*
+            Progress
+        */
+
+        let progress =
+            (count / GOAL) * 100;
+
+        progress =
+            Math.min(
+                progress,
+                100
+            );
+
+        bar.style.width =
+            progress + "%";
+
+        percent.textContent =
+            Math.floor(progress) + "%";
+
+
+        /*
+            600 bereikt
+        */
+
+        if (
+            count >= GOAL &&
+            !celebrated
+        ) {
+
+            celebrated = true;
+
+            card.classList.add(
+                "complete"
+            );
+
+            createConfetti();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+        if (oldCount === null) {
+
+            members.textContent =
+                "Niet beschikbaar";
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+function createConfetti() {
+
+    const colors = [
+
+        "#3fb950",
+        "#58a6ff",
+        "#a371f7",
+        "#f778ba",
+        "#d29922",
+        "#ffffff"
+
+    ];
+
+    for (
+        let i = 0;
+        i < 150;
+        i++
+    ) {
+
+        const piece =
+            document.createElement(
+                "div"
+            );
+
+        piece.className =
+            "confetti";
+
+        piece.style.left =
+            Math.random() * 100 +
+            "vw";
+
+        piece.style.background =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+        piece.style.animationDuration =
+            2 +
+            Math.random() * 3 +
+            "s";
+
+        piece.style.animationDelay =
+            Math.random() * .7 +
+            "s";
+
+        document.body.appendChild(
+            piece
+        );
+
+        setTimeout(() => {
+
+            piece.remove();
+
+        }, 6000);
+
+    }
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateMembers();
+
+
+/*
+    Elke 10 seconden
+    opnieuw controleren.
+*/
+
+setInterval(
+    updateMembers,
+    10000
+);
+
+</script>
+
+</body>
+</html>
