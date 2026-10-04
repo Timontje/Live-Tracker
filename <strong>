@@ -551,7 +551,7 @@ h1 {
 
             <strong>
                 <span id="current">0</span>
-                / 600
+                / 650
             </strong>
 
         </div>
@@ -571,7 +571,7 @@ h1 {
 
         <div class="goal">
             Goal:
-            <strong>600</strong>
+            <strong>650</strong>
         </div>
 
     </div>
@@ -582,7 +582,7 @@ h1 {
 <script>
 
 const INVITE = "ddhrpnl";
-const GOAL = 600;
+const GOAL = 650;
 
 const members =
     document.getElementById("members");
