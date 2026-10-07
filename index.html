@@ -4,493 +4,501 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Discord Live Members</title>
+<title>Discord 1K TikTok Live</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    background:transparent;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
 }
 
-/* BREDE KAART */
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:5px;
+    color:#fff;
+}
 
-.card {
-    width: 560px;
-    max-width: 95vw;
-    height: 125px;
+/* =========================================
+   ULTRA DUNNE TIKTOK BANNER
+   ongeveer 380 x 90 px
+========================================= */
 
-    padding: 16px 22px;
+.overlay{
+    width:380px;
+    max-width:96vw;
+    height:88px;
 
-    display: flex;
-    align-items: center;
-    gap: 22px;
+    padding:10px 13px;
 
-    background: #161b22;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 
-    border: 1px solid #30363d;
-    border-radius: 12px;
+    border-radius:14px;
 
-    color: white;
+    background:
+        linear-gradient(
+            110deg,
+            rgba(18,19,27,.97),
+            rgba(10,11,17,.97)
+        );
+
+    border:1px solid rgba(255,255,255,.12);
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,.35);
+        0 8px 30px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+
+    position:relative;
+    overflow:hidden;
 }
 
-/* LINKER DEEL */
+/* Paarse glow */
+.overlay:before{
+    content:"";
+    position:absolute;
 
-.info {
-    width: 145px;
-    flex-shrink: 0;
+    width:150px;
+    height:150px;
+
+    top:-100px;
+    right:-35px;
+
+    background:#8b5cf6;
+    opacity:.16;
+
+    filter:blur(30px);
+    border-radius:50%;
+
+    pointer-events:none;
 }
 
-.live {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+/* =========================================
+   BOVENSTE RIJ
+========================================= */
 
-    margin-bottom: 7px;
-    padding: 3px 7px;
+.top{
+    height:16px;
 
-    border-radius: 5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-    background: #21262d;
-    border: 1px solid #30363d;
-
-    color: #3fb950;
-
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
+    position:relative;
+    z-index:1;
 }
 
-.dot {
-    width: 6px;
-    height: 6px;
+.live{
+    display:flex;
+    align-items:center;
+    gap:5px;
 
-    border-radius: 50%;
+    font-size:8px;
+    font-weight:900;
+    letter-spacing:1px;
+}
 
-    background: #3fb950;
+.dot{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#ff3158;
 
     box-shadow:
-        0 0 7px rgba(63,185,80,.7);
+        0 0 9px rgba(255,49,88,.9);
 
-    animation: pulse 1.5s infinite;
+    animation:pulse 1.4s infinite;
 }
 
-@keyframes pulse {
-    0%,100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+.badge{
+    padding:3px 7px;
 
-    50% {
-        opacity: .4;
-        transform: scale(.7);
-    }
+    border-radius:999px;
+
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.09);
+
+    font-size:7px;
+    font-weight:800;
+
+    color:#c9cbd3;
 }
 
-.title {
-    color: #8b949e;
+/* =========================================
+   MIDDEN
+========================================= */
 
-    font-size: 8px;
-    font-weight: 600;
+.middle{
+    display:flex;
+    align-items:center;
 
-    letter-spacing: 1.2px;
+    gap:10px;
 
-    text-transform: uppercase;
+    position:relative;
+    z-index:1;
 
-    margin-bottom: 2px;
+    margin-top:2px;
 }
 
-h1 {
-    margin: 0;
+/* Titel */
 
-    color: #f0f6fc;
+.title{
+    font-size:13px;
+    font-weight:900;
 
-    font-size: 15px;
-    font-weight: 500;
+    white-space:nowrap;
+
+    letter-spacing:-.3px;
 }
 
-/* MIDDEN */
+/* Member count */
 
-.counter {
-    flex: 1;
-    min-width: 0;
+.memberBox{
+    display:flex;
+    align-items:baseline;
+
+    gap:3px;
+
+    white-space:nowrap;
 }
 
-.members {
-    font-size: 42px;
-    line-height: 1;
+.members{
+    font-size:25px;
+    line-height:1;
 
-    font-weight: 600;
+    font-weight:950;
 
-    letter-spacing: -2px;
-
-    color: #f0f6fc;
-
-    white-space: nowrap;
+    letter-spacing:-1.5px;
 }
 
-/* OMHOOG */
+.target{
+    font-size:8px;
 
-.members.up {
-    animation:
-        memberUp .55s
-        cubic-bezier(.2,.8,.2,1);
+    color:#8f91a0;
+
+    font-weight:700;
 }
 
-@keyframes memberUp {
+.change{
+    font-size:8px;
+    font-weight:900;
 
-    0% {
-        transform:
-            translateY(10px)
-            scale(.88);
+    opacity:0;
 
-        opacity: .2;
-
-        filter: blur(3px);
-    }
-
-    40% {
-        transform:
-            translateY(-5px)
-            scale(1.08);
-
-        opacity: 1;
-
-        color: #3fb950;
-
-        text-shadow:
-            0 0 14px
-            rgba(63,185,80,.7);
-    }
-
-    70% {
-        transform:
-            translateY(2px)
-            scale(1.02);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scale(1);
-
-        color: #f0f6fc;
-
-        text-shadow: none;
-
-        filter: blur(0);
-    }
+    margin-left:2px;
 }
 
-/* OMLAAG */
-
-.members.down {
-    animation:
-        memberDown .55s
-        cubic-bezier(.2,.8,.2,1);
+.change.show{
+    animation:pop .8s ease forwards;
 }
 
-@keyframes memberDown {
-
-    0% {
-        transform:
-            translateY(-10px)
-            scale(.88);
-
-        opacity: .2;
-
-        filter: blur(3px);
-    }
-
-    40% {
-        transform:
-            translateY(5px)
-            scale(1.08);
-
-        opacity: 1;
-
-        color: #f85149;
-
-        text-shadow:
-            0 0 14px
-            rgba(248,81,73,.65);
-    }
-
-    70% {
-        transform:
-            translateY(-2px)
-            scale(1.02);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scale(1);
-
-        color: #f0f6fc;
-
-        text-shadow: none;
-
-        filter: blur(0);
-    }
+.change.up{
+    color:#54f29a;
 }
 
-/* ↑ ↓ */
-
-.change {
-    display: inline-block;
-
-    margin-left: 8px;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    opacity: 0;
+.change.down{
+    color:#ff5f72;
 }
 
-.change.show {
-    animation:
-        changePop .7s ease forwards;
+/* =========================================
+   PROGRESS
+========================================= */
+
+.progressBox{
+    flex:1;
+
+    min-width:65px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:3px;
 }
 
-.change.up {
-    color: #3fb950;
+.progress{
+    width:100%;
+    height:6px;
+
+    border-radius:99px;
+
+    background:rgba(255,255,255,.09);
+
+    overflow:hidden;
 }
 
-.change.down {
-    color: #f85149;
-}
+.bar{
+    width:0%;
+    height:100%;
 
-@keyframes changePop {
+    border-radius:99px;
 
-    0% {
-        opacity: 0;
-        transform: translateY(5px);
-    }
+    background:
+        linear-gradient(
+            90deg,
+            #7c3aed,
+            #ec4899
+        );
 
-    25% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    70% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-4px);
-    }
-}
-
-/* RECHTS */
-
-.stats {
-    width: 155px;
-    flex-shrink: 0;
-}
-
-.progress-top {
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 6px;
-
-    color: #8b949e;
-
-    font-size: 9px;
-}
-
-.progress-top strong {
-    color: #f0f6fc;
-}
-
-.progress {
-    width: 100%;
-    height: 7px;
-
-    background: #21262d;
-
-    border-radius: 5px;
-
-    overflow: hidden;
-}
-
-.bar {
-    width: 0%;
-    height: 100%;
-
-    background: #238636;
-
-    border-radius: 5px;
+    box-shadow:
+        0 0 10px rgba(168,85,247,.45);
 
     transition:
-        width .7s
-        cubic-bezier(.2,.8,.2,1);
+        width .8s cubic-bezier(.2,.8,.2,1);
 
-    position: relative;
+    position:relative;
 }
 
-.bar::after {
-    content: "";
+.bar:after{
+    content:"";
 
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-
-    width: 50px;
-    right: -50px;
+    position:absolute;
+    inset:0;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.45),
+            rgba(255,255,255,.6),
             transparent
         );
 
-    opacity: 0;
+    transform:translateX(-100%);
 }
 
-.bar.animate::after {
-    opacity: 1;
-
-    animation: shine .7s ease;
+.bar.animate:after{
+    animation:shine .75s ease;
 }
 
-@keyframes shine {
-    from {
-        right: 100%;
-    }
+.percent{
+    font-size:7px;
+    color:#858795;
 
-    to {
-        right: -50px;
-    }
+    text-align:right;
 }
 
-.percent {
-    margin-top: 5px;
+/* =========================================
+   COUNTDOWN
+========================================= */
 
-    color: #6e7681;
+.countdown{
+    display:flex;
+    align-items:center;
 
-    font-size: 9px;
+    gap:4px;
 
-    text-align: right;
+    white-space:nowrap;
+
+    padding-left:4px;
 }
 
-.goal {
-    margin-top: 8px;
+.countdownLabel{
+    font-size:7px;
 
-    color: #8b949e;
+    color:#858795;
 
-    font-size: 9px;
+    font-weight:800;
 
-    text-align: right;
+    text-transform:uppercase;
 }
 
-.goal strong {
-    color: #f0f6fc;
+.time{
+    display:flex;
+    align-items:baseline;
+
+    gap:2px;
 }
 
-/* 600 */
+.time b{
+    font-size:12px;
+    font-weight:900;
 
-.complete {
-    border-color: #238636;
+    letter-spacing:-.3px;
+}
+
+.time span{
+    font-size:7px;
+    color:#858795;
+}
+
+.separator{
+    color:#555766;
+
+    font-size:10px;
+
+    font-weight:900;
+}
+
+/* =========================================
+   ONDERSTE RIJ
+========================================= */
+
+.bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-top:3px;
+
+    position:relative;
+    z-index:1;
+}
+
+.sub{
+    font-size:7px;
+    color:#858795;
+}
+
+.call{
+    font-size:8px;
+    font-weight:900;
+
+    color:#fff;
+
+    white-space:nowrap;
+}
+
+/* =========================================
+   COMPLEET
+========================================= */
+
+.complete{
+    border-color:rgba(84,242,154,.55);
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,.35),
-        0 0 25px rgba(63,185,80,.15);
+        0 8px 30px rgba(0,0,0,.45),
+        0 0 25px rgba(84,242,154,.16);
 }
 
-.complete .bar {
+.complete .bar{
     background:
         linear-gradient(
             90deg,
-            #238636,
-            #3fb950
+            #22c55e,
+            #54f29a
         );
 
     box-shadow:
-        0 0 10px
-        rgba(63,185,80,.6);
+        0 0 13px rgba(84,242,154,.55);
 }
 
-/* CONFETTI */
-
-.confetti {
-    position: fixed;
-
-    top: -20px;
-
-    width: 6px;
-    height: 9px;
-
-    z-index: 100;
-
-    pointer-events: none;
-
-    animation:
-        fall linear forwards;
+.complete .call{
+    color:#54f29a;
 }
 
-@keyframes fall {
-    to {
+/* =========================================
+   ANIMATIES
+========================================= */
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(.65);
+        opacity:.55;
+    }
+}
+
+@keyframes pop{
+    0%{
+        opacity:0;
+        transform:translateY(3px) scale(.9);
+    }
+
+    25%{
+        opacity:1;
+        transform:translateY(0) scale(1.05);
+    }
+
+    75%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+        transform:translateY(-3px);
+    }
+}
+
+@keyframes shine{
+    from{
+        transform:translateX(-100%);
+    }
+
+    to{
+        transform:translateX(100%);
+    }
+}
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+.confetti{
+    position:fixed;
+
+    top:-15px;
+
+    width:5px;
+    height:8px;
+
+    pointer-events:none;
+
+    z-index:100;
+
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{
         transform:
             translateY(110vh)
             rotate(720deg);
 
-        opacity: 0;
+        opacity:0;
     }
 }
 
-/* MOBIEL */
+/* =========================================
+   EXTRA SMAL
+========================================= */
 
-@media(max-width:600px) {
+@media(max-width:360px){
 
-    .card {
-        width: 95vw;
-        height: 110px;
+    .overlay{
+        width:350px;
+        height:84px;
 
-        padding: 13px 15px;
-
-        gap: 12px;
+        padding:9px 10px;
     }
 
-    .info {
-        width: 105px;
+    .title{
+        font-size:12px;
     }
 
-    .stats {
-        width: 125px;
+    .members{
+        font-size:22px;
     }
 
-    .members {
-        font-size: 32px;
+    .countdown{
+        gap:3px;
     }
 
-    h1 {
-        font-size: 13px;
+    .time b{
+        font-size:11px;
     }
 }
 </style>
@@ -498,80 +506,116 @@ h1 {
 
 <body>
 
-<div class="card" id="card">
+<div class="overlay" id="card">
 
-    <!-- LINKERKANT -->
-
-    <div class="info">
+    <!-- BOVEN -->
+    <div class="top">
 
         <div class="live">
             <span class="dot"></span>
-            LIVE
+            TIKTOK LIVE
         </div>
 
-        <div class="title">
-            Discord Community
+        <div class="badge">
+            DISCORD
         </div>
-
-        <h1>
-            Member Goal
-        </h1>
 
     </div>
 
 
     <!-- MIDDEN -->
+    <div class="middle">
 
-    <div class="counter">
+        <div class="title">
+            🚀 Op naar 1K
+        </div>
 
-        <span
-            class="members"
-            id="members"
-        >
-            Laden...
-        </span>
+        <div class="memberBox">
 
-        <span
-            class="change"
-            id="change"
-        ></span>
+            <span
+                class="members"
+                id="members"
+            >
+                ...
+            </span>
+
+            <span class="target">
+                / 1.000
+            </span>
+
+            <span
+                class="change"
+                id="change"
+            ></span>
+
+        </div>
+
+
+        <div class="progressBox">
+
+            <div class="progress">
+
+                <div
+                    class="bar"
+                    id="bar"
+                ></div>
+
+            </div>
+
+            <div
+                class="percent"
+                id="percent"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <!-- COUNTDOWN -->
+
+        <div class="countdown">
+
+            <span class="countdownLabel">
+                ⏳
+            </span>
+
+            <div class="time">
+                <b id="days">00</b>
+                <span>d</span>
+            </div>
+
+            <span class="separator">:</span>
+
+            <div class="time">
+                <b id="hours">00</b>
+                <span>u</span>
+            </div>
+
+            <span class="separator">:</span>
+
+            <div class="time">
+                <b id="minutes">00</b>
+                <span>m</span>
+            </div>
+
+        </div>
 
     </div>
 
 
-    <!-- RECHTS -->
+    <!-- ONDER -->
+    <div class="bottom">
 
-    <div class="stats">
-
-        <div class="progress-top">
-
-            <span>
-                Progress
-            </span>
-
-            <strong>
-                <span id="current">0</span>
-                / 650
-            </strong>
-
+        <div class="sub">
+            Help ons deze maand de 1K te halen!
         </div>
 
-        <div class="progress">
-
-            <div
-                class="bar"
-                id="bar"
-            ></div>
-
-        </div>
-
-        <div class="percent">
-            <span id="percent">0%</span>
-        </div>
-
-        <div class="goal">
-            Goal:
-            <strong>650</strong>
+        <div
+            class="call"
+            id="call"
+        >
+            🎯 Samen naar de 1.000!
         </div>
 
     </div>
@@ -582,13 +626,19 @@ h1 {
 <script>
 
 const INVITE = "ddhrpnl";
-const GOAL = 650;
+
+const GOAL = 1000;
+
+/* Deadline oktober 2026 */
+const DEADLINE =
+    new Date("2026-10-31T23:59:59");
+
 
 const members =
     document.getElementById("members");
 
-const current =
-    document.getElementById("current");
+const change =
+    document.getElementById("change");
 
 const bar =
     document.getElementById("bar");
@@ -596,67 +646,71 @@ const bar =
 const percent =
     document.getElementById("percent");
 
-const change =
-    document.getElementById("change");
-
 const card =
     document.getElementById("card");
 
+
 let oldCount = null;
+
 let celebrated = false;
 
 
-/* =========================
-   MEMBER COUNT
-========================= */
+/* =========================================
+   DISCORD MEMBERS
+========================================= */
 
-async function updateMembers() {
+async function updateMembers(){
 
-    try {
+    try{
 
-        const response = await fetch(
-            "https://discord.com/api/v10/invites/"
-            + INVITE
-            + "?with_counts=true"
-        );
+        const response =
+            await fetch(
+                "https://discord.com/api/v10/invites/" +
+                INVITE +
+                "?with_counts=true"
+            );
 
-        if (!response.ok) {
+
+        if(!response.ok){
+
             throw new Error(
                 "Discord API error"
             );
+
         }
+
 
         const data =
             await response.json();
 
+
         const count =
             data.approximate_member_count;
 
-        if (
-            typeof count !== "number"
-        ) {
+
+        if(typeof count !== "number"){
+
             throw new Error(
                 "Geen member count"
             );
+
         }
 
 
-        /* Eerste keer */
-
-        if (oldCount === null) {
+        if(oldCount === null){
 
             members.textContent =
-                count + " / " + GOAL;
+                count;
 
         }
 
 
-        /* OMHOOG */
+        /* Member verandering */
 
-        if (
+        if(
             oldCount !== null &&
-            count > oldCount
-        ) {
+            count !== oldCount
+        ){
 
             members.classList.remove(
                 "up",
@@ -673,101 +727,63 @@ async function updateMembers() {
                 "animate"
             );
 
+
             void members.offsetWidth;
             void change.offsetWidth;
             void bar.offsetWidth;
 
-            members.classList.add(
-                "up"
-            );
+
+            const increased =
+                count > oldCount;
+
 
             change.textContent =
-                "↑ +" +
-                (count - oldCount);
+                (increased ? "↑ +" : "↓ ") +
+                Math.abs(
+                    count - oldCount
+                );
+
 
             change.classList.add(
                 "show",
-                "up"
+                increased ? "up" : "down"
             );
+
 
             bar.classList.add(
                 "animate"
             );
 
+
             members.textContent =
-                count + " / " + GOAL;
+                count;
+
         }
 
 
-        /* OMLAAG */
+        /* Progress */
 
-        if (
-            oldCount !== null &&
-            count < oldCount
-        ) {
-
-            members.classList.remove(
-                "up",
-                "down"
-            );
-
-            change.classList.remove(
-                "show",
-                "up",
-                "down"
-            );
-
-            void members.offsetWidth;
-            void change.offsetWidth;
-
-            members.classList.add(
-                "down"
-            );
-
-            change.textContent =
-                "↓ " +
-                (count - oldCount);
-
-            change.classList.add(
-                "show",
-                "down"
-            );
-
-            members.textContent =
-                count + " / " + GOAL;
-        }
-
-
-        current.textContent =
-            count;
-
-        oldCount = count;
-
-
-        /* PROGRESS */
-
-        let progress =
-            (count / GOAL) * 100;
-
-        progress =
+        const progress =
             Math.min(
-                progress,
+                (count / GOAL) * 100,
                 100
             );
 
+
         bar.style.width =
             progress + "%";
+
 
         percent.textContent =
             Math.floor(progress) + "%";
 
 
-        /* 600 BEREIKT */
+        /* 1K gehaald */
 
-        if (
+        if(
             count >= GOAL &&
             !celebrated
-        ) {
+        ){
 
             celebrated = true;
 
@@ -775,56 +791,167 @@ async function updateMembers() {
                 "complete"
             );
 
+
+            document.getElementById(
+                "call"
+            ).textContent =
+                "🎉 1.000 GEHAALD!";
+
+
             createConfetti();
+
         }
 
-    }
 
-    catch (error) {
+        oldCount =
+            count;
+
+
+    }catch(error){
 
         console.error(error);
 
-        if (oldCount === null) {
+
+        if(oldCount === null){
 
             members.textContent =
-                "Niet beschikbaar";
+                "—";
+
         }
+
     }
+
 }
 
 
-/* =========================
-   CONFETTI
-========================= */
+/* =========================================
+   COUNTDOWN
+========================================= */
 
-function createConfetti() {
+function updateCountdown(){
+
+    const diff =
+        DEADLINE.getTime() -
+        Date.now();
+
+
+    if(diff <= 0){
+
+        [
+            "days",
+            "hours",
+            "minutes"
+        ].forEach(
+            id =>
+                document.getElementById(
+                    id
+                ).textContent = "00"
+        );
+
+
+        document.getElementById(
+            "call"
+        ).textContent =
+            "🔥 Deadline bereikt!";
+
+
+        return;
+
+    }
+
+
+    const totalSeconds =
+        Math.floor(
+            diff / 1000
+        );
+
+
+    const days =
+        Math.floor(
+            totalSeconds / 86400
+        );
+
+
+    const hours =
+        Math.floor(
+            (totalSeconds % 86400) /
+            3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600) /
+            60
+        );
+
+
+    document.getElementById(
+        "days"
+    ).textContent =
+        String(days).padStart(
+            2,
+            "0"
+        );
+
+
+    document.getElementById(
+        "hours"
+    ).textContent =
+        String(hours).padStart(
+            2,
+            "0"
+        );
+
+
+    document.getElementById(
+        "minutes"
+    ).textContent =
+        String(minutes).padStart(
+            2,
+            "0"
+        );
+
+}
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+function createConfetti(){
 
     const colors = [
-        "#3fb950",
-        "#58a6ff",
-        "#a371f7",
-        "#f778ba",
-        "#d29922",
+        "#8b5cf6",
+        "#ec4899",
+        "#22c55e",
+        "#38bdf8",
+        "#facc15",
         "#ffffff"
     ];
 
-    for (
+
+    for(
         let i = 0;
         i < 150;
         i++
-    ) {
+    ){
 
         const piece =
             document.createElement(
                 "div"
             );
 
+
         piece.className =
             "confetti";
 
+
         piece.style.left =
-            Math.random() * 100 +
+            Math.random() *
+            100 +
             "vw";
+
 
         piece.style.background =
             colors[
@@ -834,23 +961,30 @@ function createConfetti() {
                 )
             ];
 
+
         piece.style.animationDuration =
             2 +
             Math.random() * 3 +
             "s";
 
+
         piece.style.animationDelay =
             Math.random() * .7 +
             "s";
+
 
         document.body.appendChild(
             piece
         );
 
-        setTimeout(() => {
-            piece.remove();
-        }, 6000);
+
+        setTimeout(
+            () => piece.remove(),
+            6000
+        );
+
     }
+
 }
 
 
@@ -858,11 +992,18 @@ function createConfetti() {
 
 updateMembers();
 
-/* Elke 10 seconden */
+updateCountdown();
+
 
 setInterval(
     updateMembers,
     10000
+);
+
+
+setInterval(
+    updateCountdown,
+    1000
 );
 
 </script>
